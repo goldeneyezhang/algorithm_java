@@ -1,9 +1,10 @@
 package com.yibo;
 
 public class DeepSearch {
+    private static boolean find = false;
     public static void search(int[] start, int[] target, final int depth) {
         if (start != null && target != null && start.length == target.length) {
-            int actualDepth = 0;
+            find = false;
             EightDigit eightDigit = new EightDigit();
             eightDigit.setNumbers(start);
             for (int i = 0; i < start.length; i++) {
@@ -12,7 +13,7 @@ public class DeepSearch {
                     break;
                 }
             }
-            deepMove(eightDigit, target, depth, actualDepth, 0);
+            deepMove(eightDigit, target, depth, 0);
         }
     }
 
@@ -22,29 +23,35 @@ public class DeepSearch {
      * @param eightDigit
      * @param target
      * @param depth
-     * @param actualDepth
      * @return
      */
-    private static Boolean deepMove(EightDigit eightDigit, int[] target, final int depth, int actualDepth, int lastMove) {
-        int[] moves = new int[]{3, -3, -1, 1};
-        for (int m : moves) {
-            if (m != lastMove * -1) {
-                int index = eightDigit.getZeroIndex();
-                //可以移动
-                if (index + m >= 0 && index + m < target.length && m != lastMove * -1) {
-                    EightDigit newEight = moveZero(eightDigit, m);
-                    actualDepth++;
-                    System.out.println("actualDepth = " + actualDepth + ",m=" + m);
-                    print(newEight.getNumbers());
-                    if (isTarget(newEight.getNumbers(), target)) {
-                        print(newEight.getNumbers());
-                        return true;
-                    } else if (actualDepth >= depth) {
-                        return false;
+    private static Boolean deepMove(EightDigit eightDigit, int[] target, final int depth, int lastMove) {
+        if (!find) {
+            int[] moves = new int[]{3, -3, -1, 1};
+            for (int m : moves) {
+                if (m != lastMove * -1 && !find) {
+                    int index = eightDigit.getZeroIndex();
+                    //可以移动
+                    if (index + m >= 0 && index + m < target.length) {
+                        EightDigit newEight = moveZero(eightDigit, m);
+                        System.out.println("actualDepth = " + newEight.getDepth() + ",m=" + m);
+                        //print(newEight.getNumbers());
+                        if (isTarget(newEight.getNumbers(), target)) {
+                            print(newEight.getNumbers());
+                            EightDigit eightPrint = newEight;
+                            while (eightPrint.getParent() != null) {
+                                print(eightPrint.getParent().getNumbers());
+                                eightPrint = eightPrint.getParent();
+                            }
+                            find = true;
+                            return true;
+                        } else if (newEight.getDepth() >= depth) {
+                            return false;
+                        }
+                        deepMove(newEight, target, depth, m);
                     }
-                    deepMove(newEight, target, depth, actualDepth, m);
-                }
 
+                }
             }
         }
         return false;
@@ -60,7 +67,12 @@ public class DeepSearch {
     private static EightDigit moveZero(EightDigit parent, int move) {
         int[] newNumbers = parent.getNumbers().clone();
         EightDigit newEightDigit = new EightDigit();
-        newEightDigit.setParent(parent);
+        EightDigit newParent = new EightDigit();
+        newParent.setZeroIndex(parent.getZeroIndex());
+        newParent.setNumbers(parent.getNumbers());
+        newParent.setParent(parent.getParent());
+        newParent.setDepth(parent.getDepth());
+        newEightDigit.setParent(newParent);
         int index = parent.getZeroIndex();
         if (newNumbers[index] == 0 && index + move >= 0 && index + move < newNumbers.length) {
             int number = newNumbers[index + move];
@@ -68,8 +80,10 @@ public class DeepSearch {
             newNumbers[index] = number;
             newEightDigit.setNumbers(newNumbers);
             newEightDigit.setZeroIndex(index + move);
+            newEightDigit.setDepth(parent.getDepth() + 1);
         } else {
             newEightDigit.setNumbers(newNumbers);
+            newEightDigit.setDepth(parent.getDepth());
         }
         return newEightDigit;
     }

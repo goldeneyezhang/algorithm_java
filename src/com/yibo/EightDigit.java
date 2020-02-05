@@ -4,7 +4,7 @@ public class EightDigit {
     private int[] numbers;
     private EightDigit parent;
     private int zeroIndex;
-
+    private int depth = 0;
 
     public int[] getNumbers() {
         return numbers;
@@ -30,4 +30,11 @@ public class EightDigit {
         this.zeroIndex = zeroIndex;
     }
 
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
 }
