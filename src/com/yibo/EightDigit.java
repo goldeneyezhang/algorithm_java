@@ -5,6 +5,7 @@ public class EightDigit {
     private EightDigit parent;
     private int zeroIndex;
     private int depth = 0;
+    private int move = 0;
 
     public int[] getNumbers() {
         return numbers;
@@ -36,5 +37,13 @@ public class EightDigit {
 
     public void setDepth(int depth) {
         this.depth = depth;
+    }
+
+    public int getMove() {
+        return move;
+    }
+
+    public void setMove(int move) {
+        this.move = move;
     }
 }
