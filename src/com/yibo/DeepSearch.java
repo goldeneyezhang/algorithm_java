@@ -44,7 +44,7 @@ public class DeepSearch {
                     //可以移动
                     if (index + m >= 0 && index + m < target.length) {
                         EightDigit newEight = EightDigitUtil.moveZero(eightDigit, m);
-                        System.out.println("actualDepth = " + newEight.getDepth() + ",m=" + m);
+                        //System.out.println("actualDepth = " + newEight.getDepth() + ",m=" + m);
                         //print(newEight.getNumbers());
                         if (EightDigitUtil.isTarget(newEight.getNumbers(), target)) {
                             EightDigitUtil.printRoute(newEight);

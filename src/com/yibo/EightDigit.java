@@ -6,6 +6,8 @@ public class EightDigit {
     private int zeroIndex;
     private int depth = 0;
     private int move = 0;
+    private int gValue = 0;
+    private int hValue = 0;
 
     public int[] getNumbers() {
         return numbers;
@@ -45,5 +47,25 @@ public class EightDigit {
 
     public void setMove(int move) {
         this.move = move;
+    }
+
+    public int getgValue() {
+        return gValue;
+    }
+
+    public void setgValue(int gValue) {
+        this.gValue = gValue;
+    }
+
+    public int gethValue() {
+        return hValue;
+    }
+
+    public void sethValue(int hValue) {
+        this.hValue = hValue;
+    }
+
+    public int getfValue() {
+        return hValue + gValue;
     }
 }
