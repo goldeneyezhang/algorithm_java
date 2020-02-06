@@ -42,7 +42,7 @@ public class AStar {
             if (m != eightDigit.getMove() * -1) {
                 int index = eightDigit.getZeroIndex();
                 //可以移动
-                if (index + m >= 0 && index + m < target.length) {
+                if (EightDigitUtil.canMove(index, m, target.length)) {
                     EightDigit newEight = EightDigitUtil.moveZero(eightDigit, m);
                     newEight.setgValue(eightDigit.getgValue() + 1);
                     newEight.sethValue(getHValue(newEight.getNumbers(), target));

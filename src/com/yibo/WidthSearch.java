@@ -36,7 +36,7 @@ public class WidthSearch {
                 if (m != eightDigit.getMove() * -1) {
                     int index = eightDigit.getZeroIndex();
                     //可以移动
-                    if (index + m >= 0 && index + m < target.length) {
+                    if (EightDigitUtil.canMove(index, m, target.length)) {
                         EightDigit newEight = EightDigitUtil.moveZero(eightDigit, m);
                         if (EightDigitUtil.isTarget(newEight.getNumbers(), target)) {
                             EightDigitUtil.printRoute(newEight);

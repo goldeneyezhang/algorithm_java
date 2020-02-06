@@ -1,5 +1,7 @@
 package com.yibo;
 
+import java.util.Stack;
+
 public class EightDigitUtil {
     public static EightDigit iniEightDigit(int[] start) {
         EightDigit eightDigit = new EightDigit();
@@ -24,8 +26,13 @@ public class EightDigitUtil {
     }
 
     public static void print(int[] numbers) {
-        for (int i : numbers) {
-            System.out.print(i + ",");
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.print(numbers[i]);
+            if (i % 3 == 2) {
+                System.out.println();
+            } else {
+                System.out.print(",");
+            }
         }
         System.out.println();
     }
@@ -69,11 +76,27 @@ public class EightDigitUtil {
     }
 
     public static void printRoute(EightDigit newEight) {
-        EightDigitUtil.print(newEight.getNumbers());
+        Stack<int[]> stack = new Stack<>();
+        stack.push(newEight.getNumbers());
         EightDigit eightPrint = newEight;
         while (eightPrint.getParent() != null) {
-            EightDigitUtil.print(eightPrint.getParent().getNumbers());
+            stack.push(eightPrint.getParent().getNumbers());
             eightPrint = eightPrint.getParent();
         }
+        while (!stack.empty()) {
+            print(stack.pop());
+        }
+    }
+
+    /**
+     * 是否能移动
+     *
+     * @param index
+     * @param m
+     * @param size
+     * @return
+     */
+    public static boolean canMove(int index, int m, int size) {
+        return !((index % 3 == 0 && m == -1) || (index % 3 == 2 && m == 1) || (index < 3 && m == -3) || (index > 5 && m == 3)) && (index + m >= 0 && index + m < size);
     }
 }

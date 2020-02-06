@@ -42,7 +42,7 @@ public class DeepSearch {
                 if (m != eightDigit.getMove() * -1 && !find) {
                     int index = eightDigit.getZeroIndex();
                     //可以移动
-                    if (index + m >= 0 && index + m < target.length) {
+                    if (EightDigitUtil.canMove(index, m, target.length)) {
                         EightDigit newEight = EightDigitUtil.moveZero(eightDigit, m);
                         //System.out.println("actualDepth = " + newEight.getDepth() + ",m=" + m);
                         //print(newEight.getNumbers());
@@ -61,4 +61,6 @@ public class DeepSearch {
         }
         return false;
     }
+
+
 }
