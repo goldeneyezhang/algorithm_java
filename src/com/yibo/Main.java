@@ -13,6 +13,6 @@ public class Main {
         System.out.println("width");
         WidthSearch.search(start, target);
         System.out.println("astar");
-        AStar.search(start2, target);
+        AStar.search(start, target);
     }
 }

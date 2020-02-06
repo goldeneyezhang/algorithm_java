@@ -26,6 +26,7 @@ public class AStar {
             //EightDigitUtil.print(first.getNumbers());
             //System.out.println(first.getfValue());
             opens.remove(0);
+            closed.add(first);
             if (EightDigitUtil.isTarget(first.getNumbers(), target)) {
                 EightDigitUtil.printRoute(first);
                 break;
