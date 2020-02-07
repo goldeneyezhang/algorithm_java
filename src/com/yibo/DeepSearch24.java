@@ -56,7 +56,7 @@ public class DeepSearch24 {
             newTF.getSymbols().add(s);
             if (compute(newTF, target)) {
                 return newTF;
-            } else if (newTF.getDepth() >= newTF.getNumbers().length - 1) {
+            } else if (newTF.getDepth() > newTF.getNumbers().length - 1) {
                 return null;
             } else {
                 TwentyFour result = move(newTF, target);
