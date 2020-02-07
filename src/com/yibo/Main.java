@@ -17,5 +17,10 @@ public class Main {
         AStar.search(start, target);
         System.out.println("astar");
         AStar.search(start3, target);
+        System.out.println("24");
+        int[] numbers1 = new int[]{6, 6, 6, 6};
+        int[] numbers2 = new int[]{12, 2, 1, 1};
+        DeepSearch24.search(numbers1, 24);
+        DeepSearch24.search(numbers2, 24);
     }
 }
