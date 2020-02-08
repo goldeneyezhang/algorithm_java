@@ -7,6 +7,8 @@ import java.util.List;
  * 24点深度搜索
  */
 public class DeepSearch24 {
+    private static final int depth = 3;
+
     /**
      * 搜索
      *
@@ -14,91 +16,99 @@ public class DeepSearch24 {
      * @param target
      */
     public static void search(int[] numbers, int target) {
+        move(numbers, new ArrayList<String>(), target);
+
+    }
+
+
+    /**
+     * 全排列
+     *
+     * @param numbers
+     * @param symbolList
+     * @return
+     */
+    private static List<TwentyFour> getPerums(int[] numbers, List<String> symbolList) {
         List<int[]> arrays = new ArrayList<>();
         perum(numbers, 0, numbers.length - 1, arrays);
+        List<TwentyFour> twList = new ArrayList<>();
         for (int[] number : arrays) {
             TwentyFour twentyFour = new TwentyFour();
             twentyFour.setNumbers(number);
-            List<String> symbols = new ArrayList<>();
-            twentyFour.setSymbols(symbols);
-            TwentyFour answer = move(twentyFour, target);
-            if (null != answer) {
-                System.out.println("done");
-                printAnswer(answer);
-                break;
-            }
+            twentyFour.setSymbols(new ArrayList<>(symbolList));
+            twList.add(twentyFour);
         }
-    }
-
-    private static void printAnswer(TwentyFour answer) {
-        for (int i = 0; i < answer.getNumbers().length; i++) {
-            System.out.print(answer.getNumbers()[i]);
-            if (i < answer.getSymbols().size()) {
-                System.out.print(answer.getSymbols().get(i));
-            }
-        }
-        System.out.println();
+        return twList;
     }
 
     /**
      * 移动
      *
-     * @param twentyFour
+     * @param numbers
+     * @param symbolList
      * @param target
      * @return
      */
-    private static TwentyFour move(TwentyFour twentyFour, int target) {
+    private static Boolean move(int[] numbers, List<String> symbolList, int target) {
         String[] symbol = new String[]{"+", "-", "*", "/"};
-        for (String s : symbol) {
-            TwentyFour newTF = new TwentyFour();
-            newTF.setNumbers(twentyFour.getNumbers().clone());
-            newTF.setSymbols(new ArrayList<>(twentyFour.getSymbols()));
-            newTF.getSymbols().add(s);
-            if (compute(newTF, target)) {
-                return newTF;
-            } else if (newTF.getDepth() > newTF.getNumbers().length - 1) {
-                return null;
-            } else {
-                TwentyFour result = move(newTF, target);
-                if (result != null) {
-                    return result;
+        if (numbers.length >= 2) {
+            List<TwentyFour> twentyFours = getPerums(numbers, symbolList);
+            for (TwentyFour twentyFour : twentyFours) {
+                for (String s : symbol) {
+                    TwentyFour newTF = new TwentyFour();
+                    newTF.setSymbols(new ArrayList<>(twentyFour.getSymbols()));
+                    int[] newNumbers = new int[twentyFour.getNumbers().length - 1];
+                    newNumbers[0] = compute(twentyFour.getNumbers()[0], twentyFour.getNumbers()[1], s);
+                    newTF.getSymbols().add(String.format("%d%s%d=%d", twentyFour.getNumbers()[0], s, twentyFour.getNumbers()[1], newNumbers[0]));
+                    if (newNumbers[0] == target && twentyFour.getNumbers().length == 2) {
+                        for (String sy : newTF.getSymbols()) {
+                            System.out.println(sy);
+                        }
+                        System.out.println("------------------");
+                        return true;
+                    }
+                    for (int i = 1; i < newNumbers.length; i++) {
+                        newNumbers[i] = twentyFour.getNumbers()[i + 1];
+                    }
+                    newTF.setNumbers(newNumbers);
+                    if (newTF.getDepth() > depth) {
+                        return false;
+                    } else {
+                        if (move(newTF.getNumbers(), newTF.getSymbols(), target)) {
+                            return true;
+                        }
+                    }
                 }
+
             }
         }
-        return null;
+        return false;
     }
 
     /**
      * 计算
      *
-     * @param twentyFour
-     * @param target
+     * @param number1
+     * @param number2
+     * @param symbol
      * @return
      */
-    private static boolean compute(TwentyFour twentyFour, int target) {
-        if (twentyFour.getDepth() != twentyFour.getNumbers().length - 1) {
-            return false;
-        } else {
-            int[] numbers = twentyFour.getNumbers();
-            int answer = numbers[0];
-            for (int i = 0; i < twentyFour.getSymbols().size(); i++) {
-                String symbol = twentyFour.getSymbols().get(i);
-                if (symbol == "+") {
-                    answer += numbers[i + 1];
-                } else if (symbol == "-") {
-                    answer -= numbers[i + 1];
-                } else if (symbol == "*") {
-                    answer *= numbers[i + 1];
-                } else if (symbol == "/") {
-                    answer /= numbers[i + 1] * 1.0;
-                }
-            }
-            //System.out.println(answer);
-            if (answer == target) {
-                return true;
+    private static int compute(int number1, int number2, String symbol) {
+        int answer = number1;
+        if (symbol == "+") {
+            answer += number2;
+        } else if (symbol == "-") {
+            answer -= number2;
+        } else if (symbol == "*") {
+            answer *= number2;
+        } else if (symbol == "/") {
+            if (answer % number2 == 0) {
+                answer /= number2;
+            } else {
+                answer = 10000;
             }
         }
-        return false;
+        return answer;
     }
 
     private static void swap(int[] arr, int i, int j) {
