@@ -18,8 +18,8 @@ public class Main {
         System.out.println("astar");
         AStar.search(start3, target);
         System.out.println("24");*/
-        int[] numbers1 = new int[]{9, 8, 12, 8};
-        int[] numbers2 = new int[]{1, 2, 3, 4};
+        int[] numbers1 = new int[]{9, 20, 12, 8};
+        int[] numbers2 = new int[]{2, 4, 5, 10};
         DeepSearch24.search(numbers1, 24);
         DeepSearch24.search(numbers2, 24);
     }

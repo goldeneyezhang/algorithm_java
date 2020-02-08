@@ -102,7 +102,7 @@ public class DeepSearch24 {
         } else if (symbol == "*") {
             answer *= number2;
         } else if (symbol == "/") {
-            if (answer % number2 == 0) {
+            if (answer % number2 == 0 && number2 != 0) {
                 answer /= number2;
             } else {
                 answer = 10000;
