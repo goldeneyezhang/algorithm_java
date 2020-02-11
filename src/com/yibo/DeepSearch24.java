@@ -95,18 +95,22 @@ public class DeepSearch24 {
      */
     private static int compute(int number1, int number2, String symbol) {
         int answer = number1;
-        if (symbol == "+") {
-            answer += number2;
-        } else if (symbol == "-") {
-            answer -= number2;
-        } else if (symbol == "*") {
-            answer *= number2;
-        } else if (symbol == "/") {
-            if (answer % number2 == 0 && number2 != 0) {
-                answer /= number2;
-            } else {
-                answer = 10000;
+        try {
+            if (symbol == "+") {
+                answer += number2;
+            } else if (symbol == "-") {
+                answer -= number2;
+            } else if (symbol == "*") {
+                answer *= number2;
+            } else if (symbol == "/") {
+                if (number2 != 0 && answer % number2 == 0) {
+                    answer /= number2;
+                } else {
+                    answer = 10000;
+                }
             }
+        } catch (Exception ex) {
+            return 10000;
         }
         return answer;
     }
